@@ -1,0 +1,93 @@
+.message-input-container {
+  padding: 20px;
+  display: flex;
+  height: 500px;
+  flex-direction: column;
+  button{
+    background-color: antiquewhite;
+    color: #000;
+    margin: 20px;
+  }
+  .lui{
+    margin-left: -100px;
+  }
+  //   background-color: #eee;
+  position: relative;
+  textarea {
+    width: 100%;
+
+    height: 150px;
+    min-height: 50px;
+    max-height: 200px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    &:focus {
+      background: rgba(255, 255, 255, 0.754);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+      border: 1px solid rgba(255, 255, 255, 0.31);
+    }
+    &:focus-visible {
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      outline: unset;
+    }
+  }
+  button {
+    position: absolute;
+    right: 20px;
+    width: 50px;
+
+    background: transparent;
+
+    img {
+      height: 30px;
+    }
+    &:focus {
+      outline: unset;
+    }
+    &:focus-visible {
+      outline: unset;
+    }
+    &:hover {
+      background: rgba(255, 255, 255, 0.19);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+  }
+}
+.message-test-page {
+  padding: 20px;
+  &--message {
+    border-radius: 20px;
+    padding: 20px;
+    height: 200px;
+    max-height: 200px;
+    background-color: rgba(255, 255, 255, 0.66);
+    border: 1px solid #eee;
+    overflow: auto;
+    // color: aliceblue;
+    background: rgba(255, 255, 255, 0.737);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -webkit-pre-wrap !important; /* Chrome & Safari */
+    white-space: -pre-wrap !important; /* Opera 4-6 */
+    white-space: -o-pre-wrap !important; /* Opera 7 */
+    white-space: pre-wrap !important; /* CSS3 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    white-space: normal;
+  }
+  button {
+    margin: 20px;
+    height: 30px;
+    width: 100px;
+    &:disabled {
+      background-color: #ccc;
+      background-image: unset;
+    }
+  }
+}
