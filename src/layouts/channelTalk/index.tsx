@@ -16,31 +16,28 @@ export default function ChannelTalk() {
   const textAreaRef = useRef();
   const textAreaRefEdit = useRef();
 
-  const messArr = useRef([]);
-  const startCut = useRef(0);
-  const indexArr = useRef(0);
-  const rowLine = useRef(0);
+  const messArr = useRef([]); // get temp array messsage
+  const rowLine = useRef(0); // get row of line
 
   const onChangeMessage = (e) => {
-    let rowText = getTextareaNumberOfLines(textAreaRef.current);
+    let value = e.target.value;
+
+    let rowText = getTextareaNumberOfLines(textAreaRef.current); // get row of textarea
     if (rowText > 0) {
       rowLine.current++;
     }
 
-    let value = e.target.value;
     if (onPaste) {
-      // console.log(object);
-      //   console.log(rowLine.current - 2);
       if (rowLine.current > 2) {
         rowLine.current = rowLine.current - 2;
       }
+
       let result = cutMessageByLimit(value);
       messArr.current.push(...result);
-      console.log(messArr);
       if (rowText > 5) {
+        //5 is limit  line of 1page(in 1 textarea)
         setMessage("");
       }
-
       setOnpaste(false);
     } else {
       /**
@@ -49,12 +46,12 @@ export default function ChannelTalk() {
        */
       rowLine.current = rowText;
       if (rowText > 5) {
-        let text = { insert: value.substr(0, value.length) };
-        messArr.current.push(text);
-        setMessage("");
+        let text = { insert: value.substr(0, value.length) }; // get text if equal limit line
+        messArr.current.push(text); // push text into temp message array
         setMessageArray(messArr.current);
+        setMessage("");
         value = "";
-        setCurrentInput(currentInput + 1);
+        setCurrentInput(currentInput + 1); // increase index of array
       } else {
         setMessage(value);
       }
@@ -69,14 +66,12 @@ export default function ChannelTalk() {
   const cutMessageByLimit = (value: string) => {
     let fullText = "";
     let newArray = [];
-    let line = 5 - value.replace(/[^\n]/g, "").length;
-
+    let line = 5 - value.replace(/[^\n]/g, "").length; // check if user enter more
     const result = splitStrings(value);
-    console.log(result);
+
     if (result.length > 0) {
       for (let index = 1; index <= result.length + 1; index++) {
         fullText = fullText + (result[index - 1] ? result[index - 1] : "");
-        console.log(line);
 
         if (index % line === 0 && index !== 0 && fullText !== undefined) {
           console.log(fullText);
@@ -138,7 +133,7 @@ export default function ChannelTalk() {
    */
   const onEditMessage = (e) => {
     let value = e.target.value;
-    console.log(getTextareaNumberOfLines(textAreaRefEdit.current));
+
     if (getTextareaNumberOfLines(textAreaRefEdit.current) < 5) {
       setMessageEdit(value);
       messArr.current[currentInput].insert = value;
@@ -181,9 +176,7 @@ export default function ChannelTalk() {
           <textarea
             autoFocus
             ref={textAreaRef}
-            // onChange={handleTextChange}
             value={message}
-            // onPaste={handlePaste}
             onChange={onChangeMessage}
             onPaste={() => setOnpaste(true)}
           />
@@ -192,7 +185,7 @@ export default function ChannelTalk() {
             ref={textAreaRefEdit}
             value={edit ? messageEdit : messageArray[currentInput]?.insert}
             onChange={onEditMessage}
-            // disabled={edit}
+            disabled={!edit}
           />
         )}
         {currentInput + 1}/ {messageArray.length + 1}
@@ -219,7 +212,21 @@ export default function ChannelTalk() {
           </button>
           <button
             onClick={() => {
-              setMessageEdit(messageArray[currentInput]?.insert);
+              if (
+                messageArray[currentInput]?.insert[
+                  messageArray[currentInput]?.insert.length - 1
+                ] === "\n"
+              ) {
+                setMessageEdit(
+                  messageArray[currentInput]?.insert.substr(
+                    0,
+                    messageArray[currentInput]?.insert.length - 1
+                  )
+                );
+              } else {
+                setMessageEdit(messageArray[currentInput]?.insert);
+              }
+
               setEdit(true);
             }}
           >
