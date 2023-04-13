@@ -1,6 +1,4 @@
 import React, { useRef, useState } from "react";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./channelTalk.scss";
 
 const MAX_TEXT = 250; // about max charcater in 1 page
@@ -102,6 +100,11 @@ export default function ChannelTalk() {
     return newArray;
   };
 
+  /**
+   * split string to many line when enter or full text in 1 line(50 charcater)
+   * @param str
+   * @returns
+   */
   const splitStrings = (str: any) => {
     const result = [];
     let startIndex = 0;
@@ -144,55 +147,24 @@ export default function ChannelTalk() {
     let rowText = getTextareaNumberOfLines(textAreaRefEdit.current);
 
     if (onPasteEdit) {
-      let mess = "";
+      let mess = ""; // temp message
 
       if (rowText <= 5) {
         mess = value.replace(
           messageClipboard,
-          messageClipboard.substr(0, 50 * (5 - rowText))
+          messageClipboard.substr(0, 50 * (5 - rowText)) // replace message copy to short contend
         );
       } else {
         if (rowText === 6) {
           mess = value;
         }
       }
-          
+
       if (mess.length > 0) {
         messArr.current[currentInput].insert = mess;
         setArrayMessage(messArr);
         setMessageEdit(mess);
       }
-
-      //   console.log(result);
-      //   messArr.current[currentInput].insert=result[0].insert;
-      //   setArrayMessage(messArr);
-      //   setMessageEdit(result[0].insert)
-      // //   if (rowText > 5) {
-      // //     //5 is limit  line of 1page(in 1 textarea)
-      // //     setMessage("");
-      // //   }
-      setOnpasteEdit(false);
-      //   if (
-      //     value.replace(/[^\n]/g, "").length <= maxLine + 1 &&
-      //     getTextareaNumberOfLines(textAreaRefEdit.current) <= maxLine + 1
-      //   ) {
-      //     setMessageEdit(
-      //       value.replace(messageClipboard, messageClipboard.substr(0, 50))
-      //     );
-      //     messArr.current[currentInput].insert = value.replace(
-      //       messageClipboard,
-      //       messageClipboard.substr(0, 50)
-      //     );
-      //     setArrayMessage(messArr);
-      //   } else {
-      //     // alert("Vuot Qua so line cho phep");
-      //     if (value.length < 250) {
-      //       setMessageEdit(value.substr(0, 250));
-      //       messArr.current[currentInput].insert = value.substr(0, 250);
-      //       setArrayMessage(messArr);
-      //     }
-      //   }
-
       setOnpasteEdit(false);
     } else {
       if (
@@ -206,12 +178,25 @@ export default function ChannelTalk() {
     }
   };
 
+  /**
+   * handle when paste content in edit
+   * @param e
+   */
   const handlePasteEdit = (e: any) => {
-    setMessageClipboard(e.clipboardData.getData("Text"));
+    setMessageClipboard(e.clipboardData.getData("Text")); // get clipboard content
     setOnpasteEdit(true);
   };
 
+  /**
+   * get Number of line textarea
+   * @param textarea Ref textarea target
+   * @returns  line number of textarea
+   */
+
   const getTextareaNumberOfLines = (textarea: any) => {
+    /**
+     * Using height of full textarea divide for height of text contend =>  line number
+     */
     if (textarea) {
       let height = textarea?.style?.height,
         lines;
