@@ -1,0 +1,47 @@
+.channel-talk {
+  padding: 20px;
+  &--input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    textarea {
+      height: 200px;
+      width: 423px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 10px 12px;
+    }
+  }
+
+  &--show {
+    height: 400px;
+    max-height: 400px;
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -webkit-pre-wrap !important; /* Chrome & Safari */
+    white-space: -pre-wrap !important; /* Opera 4-6 */
+    white-space: -o-pre-wrap !important; /* Opera 7 */
+    white-space: pre-wrap !important; /* CSS3 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    white-space: normal;
+    width: 500px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    overflow: auto;
+  }
+}
+
+button {
+  border: unset;
+  height: 50px;
+  width: 100px;
+  color: #fff;
+  background-color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px !important;
+  margin: 20px !important;
+  &:hover{
+    color: #000;
+    background-color: rgba(107, 107, 107, 0);
+  }
+}

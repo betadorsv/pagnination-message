@@ -1,0 +1,15 @@
+.channel {
+  &--title {
+    display: flex;
+    border-right: 1px solid #eee;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.209);
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(5px);
+    h5 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+body {
+  //  background-image: url("https://wallpaper.dog/large/11032562.jpg");
+  //  background-image: url("https://res.cloudinary.com/practicaldev/image/fetch/s--RNNNA7AE--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://user-images.githubusercontent.com/69592270/101304060-72ff5b00-380d-11eb-8c58-a3172d791c9c.png");
+  //  background-image: url("https://wallpapercave.com/wp/wp3498356.jpg");
+    // background-image: url("https://wallpaperaccess.com/full/2848136.jpg");
+  // background-image: url("https://a-static.besthdwallpaper.com/blue-eyed-white-cat-wallpaper-1280x1024-78659_32.jpg");
+  // background-image: url("https://img.freepik.com/free-vector/gradient-glassmorphism_23-2149456190.jpg?w=2000");
+    //  background-image: url("https://img.freepik.com/free-vector/realistic-glassmorphism-background_52683-87286.jpg");
+    //  background-image: url("https://hype4.academy/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbg2%402x.e27efe19.webp&w=1920&q=75");
+  //background-repeat: repeat;
+  background-size: cover;
+  // background-color: rgb(255, 255, 255);
+  // background-image: url("https://wallpapers.com/images/file/cool-cars-smooth-white-lamborghini-20d55vrbqe7vscas.jpg");
+  // background-image: url("https://wallpaperaccess.com/full/3331463.jpg");
+  backdrop-filter: blur(10px);
+    // background-image: url("https://img3.wallspic.com/previews/9/6/5/8/5/158569/158569-lamborghini_huracan_white-lamborghini-cars-lamborghini_aventador-sports_car-x750.jpg");
+    // background-image: url("https://wallpaperaccess.com/full/1378126.jpg");
+  -webkit-backdrop-filter: blur(1000px);
+}
+
+.shimmerBG {
+  animation-duration: 2.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: #ddd;
+  background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%);
+  background-size: 1200px 100%;
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1200px 0;
+  }
+  100% {
+    background-position: 1200px 0;
+  }
+}
+
+.media {
+  height: 200px;
+}
+
+.p-32 {
+  padding: 32px;
+}
+
+.title-line {
+  height: 24px;
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 20px;
+}
+
+.content-line {
+  height: 8px;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.end {
+  width: 40%;
+}
+
+.m-t-24 {
+  margin-top: 24px;
+}
