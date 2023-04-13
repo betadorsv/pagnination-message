@@ -2,13 +2,17 @@ import React, { useRef, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./channelTalk.scss";
+
 const MAX_TEXT = 250; // about max charcater in 1 page
 
 export default function ChannelTalk() {
   const [message, setMessage] = useState<string>("");
+  const [messageClipboard, setMessageClipboard] = useState<string>("");
   const [messageEdit, setMessageEdit] = useState<string>("");
+
   const [edit, setEdit] = useState<boolean>(false);
   const [onPaste, setOnpaste] = useState<boolean>(false);
+  const [onPasteEdit, setOnpasteEdit] = useState<boolean>(false);
 
   const [arrayMessage, setArrayMessage] = useState<any>([]);
   const [messageArray, setMessageArray] = useState<any>([]);
@@ -74,13 +78,15 @@ export default function ChannelTalk() {
         fullText = fullText + (result[index - 1] ? result[index - 1] : "");
 
         if (index % line === 0 && index !== 0 && fullText !== undefined) {
-          console.log(fullText);
           newArray.push({
             insert: fullText,
           });
           rowLine.current = 0;
           line = line + 5;
           fullText = "";
+          if (onPasteEdit) {
+            break;
+          }
         } else if (index === result.length + 1 && fullText.length > 0) {
           newArray.push({
             insert: fullText,
@@ -133,18 +139,76 @@ export default function ChannelTalk() {
    */
   const onEditMessage = (e) => {
     let value = e.target.value;
+    let line = 5 - value.replace(/[^\n]/g, "").length;
+    let maxLine = 5;
+    let rowText = getTextareaNumberOfLines(textAreaRefEdit.current);
 
-    if (getTextareaNumberOfLines(textAreaRefEdit.current) < 5) {
-      setMessageEdit(value);
-      messArr.current[currentInput].insert = value;
-      setArrayMessage(messArr);
-    } else if (getTextareaNumberOfLines(textAreaRefEdit.current) === 5) {
-      {
+    if (onPasteEdit) {
+      let mess = "";
+
+      if (rowText <= 5) {
+        mess = value.replace(
+          messageClipboard,
+          messageClipboard.substr(0, 50 * (5 - rowText))
+        );
+      } else {
+        if (rowText === 6) {
+          mess = value;
+        }
+      }
+          
+      if (mess.length > 0) {
+        messArr.current[currentInput].insert = mess;
+        setArrayMessage(messArr);
+        setMessageEdit(mess);
+      }
+
+      //   console.log(result);
+      //   messArr.current[currentInput].insert=result[0].insert;
+      //   setArrayMessage(messArr);
+      //   setMessageEdit(result[0].insert)
+      // //   if (rowText > 5) {
+      // //     //5 is limit  line of 1page(in 1 textarea)
+      // //     setMessage("");
+      // //   }
+      setOnpasteEdit(false);
+      //   if (
+      //     value.replace(/[^\n]/g, "").length <= maxLine + 1 &&
+      //     getTextareaNumberOfLines(textAreaRefEdit.current) <= maxLine + 1
+      //   ) {
+      //     setMessageEdit(
+      //       value.replace(messageClipboard, messageClipboard.substr(0, 50))
+      //     );
+      //     messArr.current[currentInput].insert = value.replace(
+      //       messageClipboard,
+      //       messageClipboard.substr(0, 50)
+      //     );
+      //     setArrayMessage(messArr);
+      //   } else {
+      //     // alert("Vuot Qua so line cho phep");
+      //     if (value.length < 250) {
+      //       setMessageEdit(value.substr(0, 250));
+      //       messArr.current[currentInput].insert = value.substr(0, 250);
+      //       setArrayMessage(messArr);
+      //     }
+      //   }
+
+      setOnpasteEdit(false);
+    } else {
+      if (
+        value.replace(/[^\n]/g, "").length <= maxLine &&
+        getTextareaNumberOfLines(textAreaRefEdit.current) <= maxLine
+      ) {
         setMessageEdit(value);
         messArr.current[currentInput].insert = value;
         setArrayMessage(messArr);
       }
     }
+  };
+
+  const handlePasteEdit = (e: any) => {
+    setMessageClipboard(e.clipboardData.getData("Text"));
+    setOnpasteEdit(true);
   };
 
   const getTextareaNumberOfLines = (textarea: any) => {
@@ -182,9 +246,11 @@ export default function ChannelTalk() {
           />
         ) : (
           <textarea
+            maxLength={300}
             ref={textAreaRefEdit}
             value={edit ? messageEdit : messageArray[currentInput]?.insert}
             onChange={onEditMessage}
+            onPaste={handlePasteEdit}
             disabled={!edit}
           />
         )}
